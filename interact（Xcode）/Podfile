@@ -1,0 +1,23 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '18.0'
+
+target 'interact' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for interact
+
+  pod 'Alamofire', '~> 5.9.1' # 这里的版本号应替换为您想要使用的Alamofire最新版本
+
+  pod 'SwiftyJSON'
+
+  target 'interactTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'interactUITests' do
+    # Pods for testing
+  end
+
+end

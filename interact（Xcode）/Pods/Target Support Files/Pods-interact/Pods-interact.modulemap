@@ -1,0 +1,6 @@
+framework module Pods_interact {
+  umbrella header "Pods-interact-umbrella.h"
+
+  export *
+  module * { export * }
+}
