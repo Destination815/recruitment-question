@@ -13,7 +13,6 @@ struct UserDataContainer: Decodable {
     let userId: Int
     let userLevel: Int
     let signature: String
-
 }
   
 struct UserData {
@@ -74,15 +73,23 @@ struct ContentView: View {
         AF.request(urlString).responseDecodable(of: LoginResponse.self) { response in
             switch response.result {
             case .success(let loginResponse):
-                if loginResponse.retCode == 0, let userDataContainer = loginResponse.data {
-                    userData = UserData(userId: userDataContainer.userId, userLevel: userDataContainer.userLevel, signature: userDataContainer.signature)
-                    isLoggedIn = true
-                } else {
-                    let message = loginResponse.msg ?? "未知错误"
-                    loginMessage = "错误码: \(loginResponse.retCode), 原因: \(message)"
+                DispatchQueue.main.async {
+                    if loginResponse.retCode == 0, let userDataContainer = loginResponse.data {
+                        userData = UserData(
+                            userId: userDataContainer.userId,
+                            userLevel: userDataContainer.userLevel,
+                            signature: userDataContainer.signature
+                        )
+                        isLoggedIn = true
+                    } else {
+                        let message = loginResponse.msg ?? "未知错误"
+                        loginMessage = "错误码: \(loginResponse.retCode), 原因: \(message)"
+                    }
                 }
             case .failure(let error):
-                loginMessage = "网络请求失败: \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    loginMessage = "网络请求失败: \(error.localizedDescription)"
+                }
             }
         }
     }
@@ -93,7 +100,7 @@ struct ContentView: View {
         return hashed.map { String(format: "%02hhx", $0) }.joined()
     }
 }
-
+  
 struct UserDetailView: View {
     var userData: UserData?
   
